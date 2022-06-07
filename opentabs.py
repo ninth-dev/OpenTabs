@@ -108,7 +108,8 @@ class OpenTabsCommand(sublime_plugin.WindowCommand):
 
   def run(self):
     window = self.window
-    self.views = window.views()
+    active_group = window.active_group()
+    self.views = window.views_in_group(active_group)
     self.tracked_views = []
     self.buffers = []
     self.selected_index = -1
@@ -173,10 +174,7 @@ class OpenTabsCommand(sublime_plugin.WindowCommand):
 
 
   def find_tab_by_filename(self, file_content):
-    window = self.window
-    view = window.find_open_file(file_content.file_name)
-    if view:
-      window.focus_view(view)
+    self.window.open_file(file_content.file_name)
 
   def find_tab_by_name(self, tab_content):
     window = self.window
